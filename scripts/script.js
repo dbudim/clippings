@@ -49,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 while (quoteIndex < linesContent.length) {
 
-                    let book = linesContent[bookIndex].trim();
+                    let book = linesContent[bookIndex].length > 100
+                        ? linesContent[bookIndex].substring(0, 100).trim() + "..."
+                        : linesContent[bookIndex].trim()
+
                     let quote = linesContent[quoteIndex].trim();
 
                     if (books.has(book)) {
