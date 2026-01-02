@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KTLPWY0X2"></script>
@@ -7,86 +7,425 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-3KTLPWY0X2');
     </script>
 
-    <title>Clippings Parser - Upload Kindle Clippings</title>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Upload your Kindle clippings and organize highlights by book.">
-    <meta name="keywords" content="Kindle, Clippings, Highlights, Books">
+    
+    <title>Kindle Clippings Parser - Organize Your Book Highlights</title>
+    <meta name="description" content="Free online tool to upload and organize your Kindle clippings. Parse your My Clippings.txt file and view highlights organized by book. No sign-up required.">
+    <meta name="keywords" content="Kindle, Clippings, Highlights, Books, Parser, My Clippings, Kindle Highlights, Book Notes, Reading Notes">
+    <meta name="author" content="Clippings Parser">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dbudim.github.io/clippings/">
 
-    <meta property="og:title" content="Clippings Parser - Upload Kindle Clippings">
-    <meta property="og:description" content="Upload your Kindle clippings and organize highlights by book.">
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dbudim.github.io/clippings/">
+    <meta property="og:title" content="Kindle Clippings Parser - Organize Your Book Highlights">
+    <meta property="og:description" content="Free online tool to upload and organize your Kindle clippings. Parse your My Clippings.txt file and view highlights organized by book.">
+    <meta property="og:site_name" content="Clippings Parser">
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Clippings Parser - Upload Kindle Clippings">
-    <meta name="twitter:description" content="Upload your Kindle clippings and organize highlights by book.">
+    <meta name="twitter:url" content="https://dbudim.github.io/clippings/">
+    <meta name="twitter:title" content="Kindle Clippings Parser - Organize Your Book Highlights">
+    <meta name="twitter:description" content="Free online tool to upload and organize your Kindle clippings. Parse your My Clippings.txt file and view highlights organized by book.">
 
-    <title>Clippings Parcer</title>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Kindle Clippings Parser",
+        "description": "Free online tool to upload and organize your Kindle clippings. Parse your My Clippings.txt file and view highlights organized by book.",
+        "url": "https://dbudim.github.io/clippings/",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "Upload Kindle clippings file",
+            "Organize highlights by book",
+            "Toggle book highlights visibility",
+            "No registration required"
+        ]
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             text-align: center;
         }
 
+        .logo {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-bottom: 32px;
+        }
+
         #drop-zone {
-            border: 2px dashed #007BFF;
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
+            border: 2px dashed #d1d5db;
+            background: linear-gradient(145deg, #f9fafb 0%, #f3f4f6 100%);
+            padding: 48px 32px;
+            border-radius: 16px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #drop-zone::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #drop-zone:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px -10px rgba(102, 126, 234, 0.3);
         }
 
         #drop-zone.hover {
-            border: 2px dashed #28a745;
-            background-color: #e9f7ef;
+            border-color: #10b981;
+            background: linear-gradient(145deg, #ecfdf5 0%, #d1fae5 100%);
+            transform: scale(1.02);
+        }
+
+        .drop-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        #drop-zone p {
+            color: #4b5563;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .drop-hint {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            position: relative;
+        }
+
+        #error-message {
+            display: none;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-top: 16px;
+            font-size: 0.9rem;
         }
 
         #result {
-            height: 500px;
-            overflow-y: scroll;
+            margin-top: 32px;
+            text-align: left;
+        }
+
+        #result h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .stat-card .number {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .stat-card .label {
+            font-size: 0.875rem;
+            opacity: 0.9;
         }
 
         #parsed-notes {
-            white-space: pre-wrap;
-            margin: 0;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        #parsed-notes::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #parsed-notes::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        #parsed-notes::-webkit-scrollbar-thumb {
+            background: #c4b5fd;
+            border-radius: 3px;
+        }
+
+        #parsed-notes::-webkit-scrollbar-thumb:hover {
+            background: #a78bfa;
+        }
+
+        .book-item {
+            margin-bottom: 12px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .book-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-toggle {
+            width: 100%;
+            padding: 16px 20px;
+            background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            cursor: pointer;
             text-align: left;
-            font-family: 'Your Chosen Font', sans-serif;
-            font-size: 16px;
-            color: #333; /
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .book-toggle:hover {
+            background: linear-gradient(145deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .book-toggle.expanded {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            border-bottom: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .book-title {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .quote-count {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .book-toggle.expanded .quote-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .book-toggle.expanded .chevron {
+            transform: rotate(180deg);
+        }
+
+        .quotes-list {
+            list-style: none;
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .quotes-list.expanded {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .quotes-list li {
+            padding: 14px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #4b5563;
+            background: white;
+            margin: 4px;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .quotes-list li:last-child {
+            border-bottom: none;
+        }
+
+        .quotes-list li::before {
+            content: '"';
+            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 4px;
+            line-height: 0;
+            vertical-align: -4px;
+        }
+
+        footer {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            #drop-zone {
+                padding: 32px 20px;
+            }
+
+            .drop-icon {
+                font-size: 40px;
+            }
+
+            .stat-card {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Upload your Kindle Clippings</h1>
-    <div id="drop-zone">
-        <p>Drag your clippings.txt here</p>
-        <input type="file" id="file-input" accept=".txt" style="display: none;">
+<main class="container">
+    <div class="logo">📚</div>
+    <h1>Kindle Clippings Parser</h1>
+    <p class="subtitle">Upload your My Clippings.txt file and organize highlights by book</p>
+    
+    <div id="drop-zone" role="button" tabindex="0" aria-label="Upload clippings file">
+        <span class="drop-icon">📄</span>
+        <p>Drag & drop your clippings.txt here</p>
+        <span class="drop-hint">or click to browse files</span>
+        <input type="file" id="file-input" accept=".txt" style="display: none;" aria-hidden="true">
     </div>
 
-    <div id="result" style="display: none;">
-        <h2>Books with highlights</h2>
-        <pre id="parsed-notes"></pre>
-    </div>
-</div>
+    <div id="error-message" role="alert"></div>
+
+    <section id="result" style="display: none;" aria-live="polite">
+        <h2>📖 Your Highlights</h2>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number" id="book-count">0</div>
+                <div class="label">Books</div>
+            </div>
+            <div class="stat-card">
+                <div class="number" id="highlight-count">0</div>
+                <div class="label">Highlights</div>
+            </div>
+        </div>
+        <div id="parsed-notes"></div>
+    </section>
+
+    <footer>
+        <p>Made with ❤️ for book lovers • <a href="https://github.com/dbudim/clippings" target="_blank" rel="noopener noreferrer">View on GitHub</a></p>
+    </footer>
+</main>
 
 <script src="scripts/script.js"></script>
 </body>
