@@ -1,1 +1,15 @@
 User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://dbudim.github.io/clippings/sitemap.xml
+
+# Allow all major search engine crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
